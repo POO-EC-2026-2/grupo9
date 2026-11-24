@@ -1,0 +1,51 @@
+@startuml
+title Sistema de Adoção e Cuidados com Pets
+
+class Adotante {
+  - id: int
+  - nome: String
+  - email: String
+  - telefone: String
+}
+
+class Pet {
+  - id: int
+  - nome: String
+  - especie: String
+  - idade: int
+  - status: StatusPet
+}
+
+class Adocao {
+  - id: int
+  - dataSolicitacao: Date
+  - status: StatusAdocao
+  + aprovar(): void
+  + recusar(): void
+}
+
+class Cuidado {
+  - id: int
+  - tipo: String
+  - descricao: String
+  - frequencia: String
+  - proximaData: Date
+}
+
+enum StatusPet {
+  DISPONIVEL
+  EM_PROCESSO
+  ADOTADO
+}
+
+enum StatusAdocao {
+  PENDENTE
+  APROVADA
+  RECUSADA
+}
+
+Adotante "1" -- "0..*" Adocao : solicita
+Pet "1" -- "0..*" Adocao : participa
+Pet "1" *-- "0..*" Cuidado : possui
+
+@enduml
