@@ -3,6 +3,7 @@ package com.grupo9.adocao;
 import com.grupo9.adocao.model.Pet;
 import com.grupo9.adocao.service.PetService;
 import com.grupo9.adocao.service.PetServiceMemoria;
+import com.grupo9.adocao.view.Aviso;
 import com.grupo9.adocao.view.MenuLateral;
 import com.grupo9.adocao.view.PerfilPet;
 import com.grupo9.adocao.view.Rodape;
@@ -12,9 +13,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -106,32 +105,31 @@ public class App extends Application {
     }
 
     private void adotar(Pet pet) {
-        Alert alerta;
+        // "o Thor" / "a Mel"
+        String artigo = pet.getSexo().equalsIgnoreCase("Fêmea") ? "a" : "o";
+        String nome = artigo + " " + pet.getNome();
+
         if (petService.solicitarAdocao(pet)) {
-            alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setHeaderText("Solicitação enviada!");
-            alerta.setContentText("Seu pedido para adotar " + pet.getNome()
-                    + " foi enviado. A ONG vai analisar e entrar em contato.");
+            Aviso.mostrar(janela, Aviso.Tipo.SUCESSO, pet,
+                    "Pedido enviado!",
+                    "Que alegria! Seu pedido para adotar " + nome + " foi enviado. "
+                            + "A ONG vai analisar e entrar em contato com você em breve.",
+                    "Oba!");
         } else {
-            alerta = new Alert(Alert.AlertType.WARNING);
-            alerta.setHeaderText("Solicitação já existe");
-            alerta.setContentText("Você já pediu para adotar " + pet.getNome() + ".");
+            Aviso.mostrar(janela, Aviso.Tipo.ATENCAO, pet,
+                    "Você já pediu para adotar " + nome,
+                    "Seu pedido está em análise. Você pode acompanhar em \"Minhas solicitações\", no menu ao lado.",
+                    "Entendi");
         }
-        alerta.initOwner(janela);
-        alerta.setTitle("Adoção");
-        alerta.showAndWait();
     }
 
     private void sair() {
-        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION, "Deseja mesmo sair da conta?",
-                ButtonType.YES, ButtonType.NO);
-        confirmar.initOwner(janela);
-        confirmar.setTitle("Sair");
-        confirmar.setHeaderText(null);
-        confirmar.showAndWait()
-                .filter(resposta -> resposta == ButtonType.YES)
-                // Quando houver tela de login, voltar para ela em vez de fechar.
-                .ifPresent(resposta -> Platform.exit());
+        boolean sair = Aviso.confirmar(janela, "Já vai?",
+                "Deseja mesmo sair da conta? Os pets vão sentir sua falta!", "Sair", "Ficar");
+        if (sair) {
+            // Quando houver tela de login, voltar para ela em vez de fechar.
+            Platform.exit();
+        }
     }
 
     public static void main(String[] args) {

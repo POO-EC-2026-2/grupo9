@@ -136,6 +136,49 @@
     -fx-text-fill: #1f3b2c;
 }
 
+/* ---------- Aviso (janela de mensagem) ---------- */
+.aviso {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-width: 6 0 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(31, 78, 121, 0.35), 16, 0, 0, 4);
+}
+
+.aviso-sucesso  { -fx-border-color: #8fd19e; }  /* verde */
+.aviso-atencao  { -fx-border-color: #ffd23f; }  /* amarelo */
+.aviso-pergunta { -fx-border-color: #4a9fe0; }  /* azul */
+
+.aviso-titulo {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f4e79;
+    -fx-text-alignment: center;
+}
+
+.aviso-mensagem {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2e7d4f;
+    -fx-text-alignment: center;
+}
+
+.aviso-moldura {
+    -fx-background-color: #ffd23f;
+    -fx-background-radius: 100;
+    -fx-padding: 4;
+}
+
+.aviso-icone {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-radius: 100;
+}
+
+.aviso-sucesso .aviso-icone  { -fx-background-color: #2e9e5b; }
+.aviso-atencao .aviso-icone  { -fx-background-color: #f0b400; }
+.aviso-pergunta .aviso-icone { -fx-background-color: #4a9fe0; }
+
 /* Os dois botões têm o mesmo tamanho e a mesma borda para ficarem alinhados. */
 .botao-primario, .botao-secundario {
     -fx-font-size: 14px;
