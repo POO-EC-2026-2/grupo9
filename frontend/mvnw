@@ -1,0 +1,18 @@
+#!/bin/sh
+# Baixa o Maven (so na primeira vez) e executa com os argumentos recebidos.
+set -e
+RAIZ=$(cd "$(dirname "$0")" && pwd)
+URL=$(sed -n 's/^distributionUrl=//p' "$RAIZ/.mvn/wrapper/maven-wrapper.properties" | tr -d '\r')
+NOME=$(basename "$URL" .zip)
+DESTINO="$HOME/.m2/wrapper/dists/$NOME"
+MVN=$(find "$DESTINO" -path '*/bin/mvn' 2>/dev/null | head -n 1)
+if [ -z "$MVN" ]; then
+  mkdir -p "$DESTINO"
+  echo "Baixando Maven de $URL ..."
+  curl -fsSL "$URL" -o "$DESTINO/$NOME.zip"
+  unzip -q "$DESTINO/$NOME.zip" -d "$DESTINO"
+  rm "$DESTINO/$NOME.zip"
+  MVN=$(find "$DESTINO" -path '*/bin/mvn' | head -n 1)
+fi
+cd "$RAIZ"
+exec "$MVN" "$@"

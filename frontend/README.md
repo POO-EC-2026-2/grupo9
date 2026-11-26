@@ -4,11 +4,12 @@ Telas do adotante feitas em Java com JavaFX.
 
 ## Como rodar
 
-Precisa de JDK 21 e Maven.
+Precisa só do JDK 21. O Maven é baixado automaticamente pelo wrapper na primeira execução.
 
 ```
 cd frontend
-mvn javafx:run
+.mvnw javafx:run      # Windows (PowerShell)
+./mvnw javafx:run      # Linux/Mac
 ```
 
 Também dá para abrir a pasta `frontend` como projeto Maven no IntelliJ/VS Code e rodar a classe `com.grupo9.adocao.Launcher`.
