@@ -2,6 +2,7 @@ package com.grupo9.adocao.view;
 
 import com.grupo9.adocao.model.Pet;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,6 +34,7 @@ public class ImagemPet extends StackPane {
             view.setFitWidth(largura);
             view.setFitHeight(altura);
             view.setPreserveRatio(false);
+            view.setViewport(recorteCentral(imagem, largura / altura));
             view.setSmooth(true);
             Rectangle cantos = new Rectangle(largura, altura);
             cantos.setArcWidth(16);
@@ -47,6 +49,18 @@ public class ImagemPet extends StackPane {
             inicial.setStyle("-fx-font-size: " + (int) (altura * 0.4) + "px;");
             getChildren().add(inicial);
         }
+    }
+
+    /** Recorta o centro da foto na proporção do espaço, para preencher sem deformar. */
+    private static Rectangle2D recorteCentral(Image imagem, double proporcao) {
+        double w = imagem.getWidth();
+        double h = imagem.getHeight();
+        if (w / h > proporcao) {
+            double novaLargura = h * proporcao;
+            return new Rectangle2D((w - novaLargura) / 2, 0, novaLargura, h);
+        }
+        double novaAltura = w / proporcao;
+        return new Rectangle2D(0, (h - novaAltura) / 2, w, novaAltura);
     }
 
     private static Image carregar(String caminho) {

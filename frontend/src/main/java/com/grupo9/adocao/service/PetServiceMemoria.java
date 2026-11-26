@@ -15,15 +15,15 @@ public class PetServiceMemoria implements PetService {
 
     public PetServiceMemoria() {
         pets.add(new Pet(1, "Thor", "Cachorro", "Macho", "Grande", "3 anos",
-                "Thor é brincalhão e muito carinhoso. Adora correr e se dá bem com crianças.", null));
+                "Thor é brincalhão e muito carinhoso. Adora correr e se dá bem com crianças.", "/imagens/thor.jpg"));
         pets.add(new Pet(2, "Mel", "Gato", "Fêmea", "Pequeno", "1 ano",
-                "Mel é calma, gosta de colo e de dormir no sol. Já está vacinada e castrada.", null));
+                "Mel é calma, gosta de colo e de dormir no sol. Já está vacinada e castrada.", "/imagens/mel.jpg"));
         pets.add(new Pet(3, "Bidu", "Cachorro", "Macho", "Médio", "5 anos",
-                "Bidu foi resgatado das ruas e hoje é super dócil. Ideal para quem tem quintal.", null));
+                "Bidu foi resgatado das ruas e hoje é super dócil. Ideal para quem tem quintal.", "/imagens/bidu.jpg"));
         pets.add(new Pet(4, "Luna", "Gato", "Fêmea", "Pequeno", "6 meses",
-                "Luna é curiosa e cheia de energia. Vai alegrar a sua casa!", null));
+                "Luna é curiosa e cheia de energia. Vai alegrar a sua casa!", "/imagens/luna.jpg"));
         pets.add(new Pet(5, "Pipoca", "Cachorro", "Fêmea", "Pequeno", "2 anos",
-                "Pipoca é companheira e se adapta bem a apartamento.", null));
+                "Pipoca é companheira e se adapta bem a apartamento.", "/imagens/pipoca.jpg"));
     }
 
     @Override
