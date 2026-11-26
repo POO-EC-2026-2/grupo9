@@ -8,7 +8,7 @@ Precisa só do JDK 21. O Maven é baixado automaticamente pelo wrapper na primei
 
 ```
 cd frontend
-.mvnw javafx:run      # Windows (PowerShell)
+.\mvnw javafx:run     # Windows (PowerShell)
 ./mvnw javafx:run      # Linux/Mac
 ```
 
