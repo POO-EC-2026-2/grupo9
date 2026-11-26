@@ -14,4 +14,7 @@ public interface PetService {
 
     /** Registra o pedido de adoção do pet. Retorna true se o pedido foi aceito para análise. */
     boolean solicitarAdocao(Pet pet);
+
+    /** Pets que o adotante já pediu para adotar. */
+    List<Pet> listarSolicitacoes();
 }

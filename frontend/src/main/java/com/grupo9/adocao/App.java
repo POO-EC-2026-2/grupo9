@@ -3,44 +3,106 @@ package com.grupo9.adocao;
 import com.grupo9.adocao.model.Pet;
 import com.grupo9.adocao.service.PetService;
 import com.grupo9.adocao.service.PetServiceMemoria;
+import com.grupo9.adocao.view.MenuLateral;
 import com.grupo9.adocao.view.PerfilPet;
+import com.grupo9.adocao.view.Rodape;
+import com.grupo9.adocao.view.TelaEmConstrucao;
 import com.grupo9.adocao.view.TelaInicialAdotante;
 import javafx.application.Application;
-import javafx.scene.Parent;
+import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-/** Ponto de entrada do front. Controla a troca entre a tela inicial e o perfil do pet. */
+import java.util.List;
+
+/**
+ * Ponto de entrada do front.
+ * A janela tem menu lateral, rodapé e uma área central que troca de tela.
+ */
 public class App extends Application {
 
     private final PetService petService = new PetServiceMemoria();
-    private Scene cena;
+    private final BorderPane layout = new BorderPane();
     private Stage janela;
+    private MenuLateral menu;
+    private Runnable telaAtual; // usada pelo botão Voltar do perfil
 
     @Override
     public void start(Stage stage) {
         janela = stage;
-        cena = new Scene(criarTelaInicial(), 900, 640);
+
+        menu = criarMenu();
+        layout.setLeft(menu);
+        layout.setBottom(new Rodape());
+
+        Scene cena = new Scene(layout, 1180, 720);
         cena.getStylesheets().add(App.class.getResource("estilo.css").toExternalForm());
 
         stage.setTitle("Sistema de Adoção");
-        stage.setMinWidth(760);
-        stage.setMinHeight(480);
+        stage.setMinWidth(1120);
+        stage.setMinHeight(560);
         stage.setScene(cena);
         stage.show();
     }
 
-    private Parent criarTelaInicial() {
-        return new TelaInicialAdotante(petService.listarPetsDisponiveis(), this::abrirPerfil);
+    private MenuLateral criarMenu() {
+        MenuLateral m = new MenuLateral("Sistema de Adoção");
+
+        m.adicionarSecao("Escolher animal");
+        Button todos = m.adicionarItem("Todos os pets", () -> mostrarPets(null));
+        m.adicionarItem("Cachorros", () -> mostrarPets("Cachorro"));
+        m.adicionarItem("Gatos", () -> mostrarPets("Gato"));
+
+        m.adicionarSecao("Minha conta");
+        m.adicionarItem("Minhas solicitações", this::mostrarSolicitacoes);
+        m.adicionarItem("Editar cadastro", () -> mostrar(new TelaEmConstrucao(
+                "Editar cadastro", "Em breve você poderá alterar seu nome, telefone e endereço aqui.")));
+
+        m.adicionarEspaco();
+        m.adicionarAcao("Sair da conta", this::sair);
+
+        m.selecionar(todos);
+        mostrarPets(null);
+        return m;
+    }
+
+    /** especie == null mostra todos os pets. */
+    private void mostrarPets(String especie) {
+        telaAtual = () -> mostrarPets(especie);
+        List<Pet> pets = petService.listarPetsDisponiveis().stream()
+                .filter(p -> especie == null || p.getEspecie().equalsIgnoreCase(especie))
+                .toList();
+
+        if (especie == null) {
+            mostrar(new TelaInicialAdotante(pets, this::abrirPerfil));
+        } else {
+            String plural = especie.equals("Gato") ? "Gatos" : "Cachorros";
+            mostrar(new TelaInicialAdotante(plural + " para adoção",
+                    "Clique em um pet para ver o perfil completo.",
+                    "Nenhum pet desta espécie disponível no momento.", pets, this::abrirPerfil));
+        }
+    }
+
+    private void mostrarSolicitacoes() {
+        telaAtual = this::mostrarSolicitacoes;
+        mostrar(new TelaInicialAdotante("Minhas solicitações",
+                "Pets que você pediu para adotar. A ONG vai entrar em contato.",
+                "Você ainda não pediu para adotar nenhum pet.",
+                petService.listarSolicitacoes(), this::abrirPerfil));
     }
 
     private void abrirPerfil(Pet pet) {
-        cena.setRoot(new PerfilPet(pet, () -> adotar(pet), this::voltarParaInicio));
+        Runnable voltar = telaAtual;
+        mostrar(new PerfilPet(pet, () -> adotar(pet), voltar));
     }
 
-    private void voltarParaInicio() {
-        cena.setRoot(criarTelaInicial());
+    private void mostrar(Node tela) {
+        layout.setCenter(tela);
     }
 
     private void adotar(Pet pet) {
@@ -58,6 +120,18 @@ public class App extends Application {
         alerta.initOwner(janela);
         alerta.setTitle("Adoção");
         alerta.showAndWait();
+    }
+
+    private void sair() {
+        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION, "Deseja mesmo sair da conta?",
+                ButtonType.YES, ButtonType.NO);
+        confirmar.initOwner(janela);
+        confirmar.setTitle("Sair");
+        confirmar.setHeaderText(null);
+        confirmar.showAndWait()
+                .filter(resposta -> resposta == ButtonType.YES)
+                // Quando houver tela de login, voltar para ela em vez de fechar.
+                .ifPresent(resposta -> Platform.exit());
     }
 
     public static void main(String[] args) {

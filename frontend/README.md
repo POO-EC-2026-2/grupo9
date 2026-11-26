@@ -16,6 +16,8 @@ Também dá para abrir a pasta `frontend` como projeto Maven no IntelliJ/VS Code
 
 ## Telas
 
+A janela tem um **menu lateral** azul à esquerda (Todos os pets, Cachorros, Gatos, Minhas solicitações, Editar cadastro, Sair da conta), um **rodapé** verde embaixo, e o conteúdo no centro. As cores ficam em `src/main/resources/com/grupo9/adocao/estilo.css`.
+
 - **Tela inicial do adotante** (`TelaInicialAdotante`): pets em blocos, três por linha, com imagem, nome, espécie, sexo, porte e idade. Com mais pets, aparece a barra de rolagem.
 - **Perfil do pet** (`PerfilPet`): abre ao clicar num bloco. Mostra mais informações, a descrição e os botões **Adotar** e **Voltar**.
 

@@ -3,7 +3,7 @@ package com.grupo9.adocao.service;
 import com.grupo9.adocao.model.Pet;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 public class PetServiceMemoria implements PetService {
 
     private final List<Pet> pets = new ArrayList<>();
-    private final Set<Integer> solicitados = new HashSet<>();
+    private final Set<Integer> solicitados = new LinkedHashSet<>();
 
     public PetServiceMemoria() {
         pets.add(new Pet(1, "Thor", "Cachorro", "Macho", "Grande", "3 anos",
@@ -34,5 +34,18 @@ public class PetServiceMemoria implements PetService {
     @Override
     public boolean solicitarAdocao(Pet pet) {
         return solicitados.add(pet.getId());
+    }
+
+    @Override
+    public List<Pet> listarSolicitacoes() {
+        List<Pet> resultado = new ArrayList<>();
+        for (Integer id : solicitados) {
+            for (Pet pet : pets) {
+                if (pet.getId() == id) {
+                    resultado.add(pet);
+                }
+            }
+        }
+        return resultado;
     }
 }

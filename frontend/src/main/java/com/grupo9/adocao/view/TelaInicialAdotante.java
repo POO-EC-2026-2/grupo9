@@ -15,26 +15,34 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Tela inicial do adotante: os pets aparecem em blocos, três por linha.
+ * Lista de pets em blocos, três por linha.
  * Quando há mais pets do que cabem na janela, aparece a barra de rolagem.
+ * Usada na tela inicial do adotante, nos filtros e em "Minhas solicitações".
  */
 public class TelaInicialAdotante extends BorderPane {
 
     private static final int COLUNAS = 3;
 
     public TelaInicialAdotante(List<Pet> pets, Consumer<Pet> aoSelecionarPet) {
+        this("Encontre seu novo amigo", "Clique em um pet para ver o perfil completo.",
+                "Nenhum pet disponível para adoção no momento.", pets, aoSelecionarPet);
+    }
+
+    public TelaInicialAdotante(String tituloTexto, String subtituloTexto, String mensagemVazia,
+                               List<Pet> pets, Consumer<Pet> aoSelecionarPet) {
         getStyleClass().add("tela");
 
-        Label titulo = new Label("Encontre seu novo amigo");
+        Label titulo = new Label(tituloTexto);
         titulo.getStyleClass().add("titulo");
-        Label subtitulo = new Label("Clique em um pet para ver o perfil completo.");
+        Label subtitulo = new Label(subtituloTexto);
         subtitulo.getStyleClass().add("subtitulo");
         VBox cabecalho = new VBox(4, titulo, subtitulo);
-        cabecalho.setPadding(new Insets(24, 32, 8, 32));
+        cabecalho.getStyleClass().add("cabecalho");
+        cabecalho.setPadding(new Insets(24, 32, 16, 32));
         setTop(cabecalho);
 
         if (pets.isEmpty()) {
-            Label vazio = new Label("Nenhum pet disponível para adoção no momento.");
+            Label vazio = new Label(mensagemVazia);
             vazio.getStyleClass().add("subtitulo");
             setCenter(vazio);
             return;

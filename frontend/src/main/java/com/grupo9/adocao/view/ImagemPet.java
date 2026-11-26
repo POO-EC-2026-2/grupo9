@@ -40,7 +40,8 @@ public class ImagemPet extends StackPane {
             view.setClip(cantos);
             getChildren().add(view);
         } else {
-            getStyleClass().add("imagem-placeholder");
+            // alterna verde, amarelo e azul entre os pets
+            getStyleClass().addAll("imagem-placeholder", "placeholder-cor-" + (pet.getId() % 3));
             Label inicial = new Label(pet.getNome().substring(0, 1).toUpperCase());
             inicial.getStyleClass().add("imagem-inicial");
             inicial.setStyle("-fx-font-size: " + (int) (altura * 0.4) + "px;");
