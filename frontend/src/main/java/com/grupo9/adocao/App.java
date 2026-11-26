@@ -97,7 +97,7 @@ public class App extends Application {
 
     private void abrirPerfil(Pet pet) {
         Runnable voltar = telaAtual;
-        mostrar(new PerfilPet(pet, () -> adotar(pet), voltar));
+        mostrar(new PerfilPet(pet, petService, () -> adotar(pet), voltar));
     }
 
     private void mostrar(Node tela) {

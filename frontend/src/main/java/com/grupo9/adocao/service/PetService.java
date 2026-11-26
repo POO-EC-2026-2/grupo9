@@ -17,4 +17,10 @@ public interface PetService {
 
     /** Pets que o adotante já pediu para adotar. */
     List<Pet> listarSolicitacoes();
+
+    /** Envia uma pergunta do adotante sobre o pet para a ONG. */
+    void enviarPergunta(Pet pet, String pergunta);
+
+    /** Perguntas que o adotante já fez sobre o pet. */
+    List<String> listarPerguntas(Pet pet);
 }

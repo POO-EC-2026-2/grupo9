@@ -21,14 +21,20 @@ import java.net.URL;
  */
 public class ImagemPet extends StackPane {
 
+    /** Mostra a foto principal do pet. */
     public ImagemPet(Pet pet, double largura, double altura) {
+        this(pet, pet.getCaminhoImagem(), largura, altura);
+    }
+
+    /** Mostra uma foto específica do pet (usada na galeria). */
+    public ImagemPet(Pet pet, String caminhoFoto, double largura, double altura) {
         setPrefSize(largura, altura);
         setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         setAlignment(Pos.CENTER);
         getStyleClass().add("imagem-pet");
 
-        Image imagem = carregar(pet.getCaminhoImagem());
+        Image imagem = carregar(caminhoFoto);
         if (imagem != null) {
             ImageView view = new ImageView(imagem);
             view.setFitWidth(largura);
