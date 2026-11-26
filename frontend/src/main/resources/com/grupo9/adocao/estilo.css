@@ -136,29 +136,37 @@
     -fx-text-fill: #1f3b2c;
 }
 
+/* Os dois botões têm o mesmo tamanho e a mesma borda para ficarem alinhados. */
 .botao-primario, .botao-secundario {
     -fx-font-size: 14px;
-    -fx-padding: 8 28;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-min-height: 40px;
+    -fx-pref-height: 40px;
+    -fx-background-insets: 0;
     -fx-background-radius: 20;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
     -fx-cursor: hand;
 }
 
 .botao-primario {
     -fx-background-color: #ffd23f;
+    -fx-border-color: #ffd23f;
     -fx-text-fill: #1f4e79;
-    -fx-font-weight: bold;
 }
 
 .botao-primario:hover {
     -fx-background-color: #ffc107;
+    -fx-border-color: #ffc107;
 }
 
 .botao-secundario {
     -fx-background-color: white;
     -fx-text-fill: #3a86c8;
     -fx-border-color: #4a9fe0;
-    -fx-border-radius: 20;
-    -fx-border-width: 2;
 }
 
 .botao-secundario:hover {

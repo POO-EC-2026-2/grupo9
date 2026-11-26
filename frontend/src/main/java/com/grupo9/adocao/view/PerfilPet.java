@@ -45,6 +45,7 @@ public class PerfilPet extends ScrollPane {
         voltar.setOnAction(e -> aoVoltar.run());
 
         HBox botoes = new HBox(12, voltar, adotar);
+        botoes.setAlignment(Pos.CENTER_LEFT);
         botoes.setPadding(new Insets(16, 0, 0, 0));
 
         VBox informacoes = new VBox(12, nome, dados, tituloDescricao, descricao, botoes);
